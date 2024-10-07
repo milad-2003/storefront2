@@ -22,3 +22,12 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def calculate_tax(self, product: Product):
         return product.unit_price * Decimal(1.1)
+
+    ##########################################################################
+    # This is used when validation is done by comparing two fields of the data
+    ##########################################################################
+    # def validate(self, data):
+    #     if data['password'] != data['confirm-password']:
+    #         return serializers.ValidationError('Passwords do not match!')
+    #     return data
+    
