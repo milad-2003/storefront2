@@ -8,7 +8,13 @@ from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializ
 
 # We should inherit from "ReadOnlyModelViewSet" if no update and delete method is allowed
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
+    def get_queryset(self):
+        queryset = Product.objects.all()
+        collection_id = self.request.query_params.get('collection_id')
+        if collection_id is not None:
+            queryset = queryset.filter(collection_id=collection_id)
+        return queryset
+
     serializer_class = ProductSerializer
 
     def get_serializer_context(self):
