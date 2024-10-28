@@ -143,5 +143,10 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    "COERCE_DECIMAL_TO_STRING": False
+    "COERCE_DECIMAL_TO_STRING": False,
+    # We use this setting to apply the PageNumberPagination to all the pages
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    # We can also use LimitOffsetPagination instead of PageNumberPagination
+    # The difference is in the url
+    "PAGE_SIZE": 10
 }
