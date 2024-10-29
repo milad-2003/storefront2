@@ -6,9 +6,9 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyM
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from .filters import ProductFilter
-from .models import Product, Collection, OrderItem, Review, Cart
+from .models import Product, Collection, OrderItem, Review, Cart, CartItem
 from .pagination import DefaultPagination
-from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer
+from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer
 
 
 # We should inherit from "ReadOnlyModelViewSet" if no update and delete method is allowed
@@ -65,3 +65,13 @@ class CartViewSet(CreateModelMixin,
 
     def get_serializer_context(self):
         return {'request': self.request}
+
+
+class CartItemViewSet(ModelViewSet):
+    def get_queryset(self):
+        cart_id = self.kwargs['cart_pk']
+        return CartItem.objects \
+               .filter(cart_id=cart_id) \
+               .select_related('product')
+    
+    serializer_class = CartItemSerializer
