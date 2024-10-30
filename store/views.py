@@ -8,10 +8,9 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from .filters import ProductFilter
 from .models import Product, Collection, OrderItem, Review, Cart, CartItem
 from .pagination import DefaultPagination
-from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer
+from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer
 
 
-# We should inherit from "ReadOnlyModelViewSet" if no update and delete method is allowed
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -31,7 +30,6 @@ class ProductViewSet(ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-# We should inherit from "ReadOnlyModelViewSet" if no update and delete method is allowed
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.annotate(product_count=Count('products')).all()
     serializer_class = CollectionSerializer
@@ -74,4 +72,11 @@ class CartItemViewSet(ModelViewSet):
                .filter(cart_id=cart_id) \
                .select_related('product')
     
-    serializer_class = CartItemSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddCartItemSerializer
+        else:
+            return CartItemSerializer
+
+    def get_serializer_context(self):
+        return {'cart_id': self.kwargs['cart_pk']}
