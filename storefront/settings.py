@@ -150,8 +150,14 @@ REST_FRAMEWORK = {
     ),
 }
 
-AUTH_USER_MODEL = 'core.User'
-
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
+}
+
+AUTH_USER_MODEL = 'core.User'
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer'
+    }
 }
