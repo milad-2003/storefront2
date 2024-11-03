@@ -150,20 +150,17 @@ REST_FRAMEWORK = {
     ),
 }
 
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-}
-
 AUTH_USER_MODEL = 'core.User'
 
 DJOSER = {
     'SERIALIZERS': {
-        'user_create': 'core.serializers.UserCreateSerializer'
+        'user_create': 'core.serializers.UserCreateSerializer',
+        'current_user': 'core.serializers.UserSerializer'
     }
 }
 
 # Settings for Simple-jwt
-# SIMPLE_JWT = {
+SIMPLE_JWT = {
     # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     # "ROTATE_REFRESH_TOKENS": False,
@@ -179,7 +176,7 @@ DJOSER = {
     # "JWK_URL": None,
     # "LEEWAY": 0,
 
-    # "AUTH_HEADER_TYPES": ("Bearer",),
+    'AUTH_HEADER_TYPES': ('JWT',),
     # "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     # "USER_ID_FIELD": "id",
     # "USER_ID_CLAIM": "user_id",
@@ -201,4 +198,4 @@ DJOSER = {
     # "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
     # "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     # "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
-# }
+}
